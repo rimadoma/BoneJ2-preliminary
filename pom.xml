@@ -6,6 +6,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>ops</module>
+        <module>devUtil</module>
     </modules>
 
     <parent>
@@ -46,6 +47,13 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+
+        <!-- javax.annotation.* in here-->
+        <dependency>
+            <groupId>net.sourceforge.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
             <version>RELEASE</version>
         </dependency>
     </dependencies>
