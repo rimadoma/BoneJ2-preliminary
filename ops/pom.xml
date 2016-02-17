@@ -7,6 +7,7 @@
     <modules>
         <module>datasetIs3D</module>
         <module>connectivity</module>
+        <module>iterableIntervalIsBinary</module>
     </modules>
 
     <parent>
