@@ -10,7 +10,6 @@ import net.imglib2.img.basictypeaccess.array.ByteArray;
 import net.imglib2.img.planar.PlanarImg;
 import net.imglib2.img.planar.PlanarImgFactory;
 import net.imglib2.type.numeric.integer.ByteType;
-import net.imglib2.util.Fraction;
 
 import org.bonej.devUtil.datasetCreator.DatasetCreator;
 import org.junit.After;
@@ -45,7 +44,7 @@ public class IterableIntervalIsBinaryTest {
 
 
     @Test
-    public void testEmptyIntervalFails() throws AssertionError {
+    public void testEmptyIntervalFails() {
         Dataset dataset = datasetCreator.createEmptyDataset(DatasetType.BIT);
 
         final boolean result = (boolean) ij.op().run(IterableIntervalIsBinary.class, dataset);
@@ -53,7 +52,7 @@ public class IterableIntervalIsBinaryTest {
     }
 
     @Test
-    public void testIntervalWithOneValuePasses() throws AssertionError {
+    public void testIntervalWithOneValuePasses() {
         final int minValue = 1;
         final int maxValue = 1;
         dataset = datasetCreator.createDataset(DatasetType.BIT);
@@ -65,7 +64,7 @@ public class IterableIntervalIsBinaryTest {
     }
 
     @Test
-    public void testIntervalWithTwoValuesPasses() throws AssertionError {
+    public void testIntervalWithTwoValuesPasses() {
         final int minValue = 0;
         final int maxValue = 1;
         dataset = datasetCreator.createDataset(DatasetCreator.DatasetType.BIT);
@@ -77,10 +76,22 @@ public class IterableIntervalIsBinaryTest {
     }
 
     @Test
-    public void testIntervalWithMoreThanTwoValuesFails() throws AssertionError {
+    public void testIntervalWithMoreThanTwoValuesFails() {
         PlanarImg planarImg = new PlanarImgFactory().create(new long[]{3}, new ByteType());
         planarImg.setPlane(0, new ByteArray(new byte[]{0, 1, 2}));
         final boolean result = (boolean) ij.op().run(IterableIntervalIsBinary.class, planarImg);
         assertFalse("An interval with more than two distinct values is not binary", result);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testSetIterableIntervalThrowsNullPointerExceptionIfArgumentIsNull() {
+        IterableIntervalIsBinary iterableIntervalIsBinary = new IterableIntervalIsBinary();
+        iterableIntervalIsBinary.setIterableInterval(null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testRunThrowsNullPointerExceptionIfIterableIntervalNotSet() {
+        IterableIntervalIsBinary iterableIntervalIsBinary = new IterableIntervalIsBinary();
+        iterableIntervalIsBinary.run();
     }
 }

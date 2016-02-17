@@ -44,8 +44,8 @@ public class Connectivity implements Op {
     }
 
     private void checkDataset() throws IllegalArgumentException {
-        checkArgument(checkIsStrictly3D(), "Image must be three dimensional and only spatial dimensions");
-        checkArgument(checkIsBinary(), "Image is not a thresholded binary image");
+        checkArgument(checkIsStrictly3D(), "Dataset must be three dimensional and only spatial dimensions");
+        checkArgument(checkIsBinary(), "Dataset is not a thresholded binary image");
     }
 
     private boolean checkIsBinary() {
