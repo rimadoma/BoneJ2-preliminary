@@ -25,7 +25,6 @@ public class DatasetIs3D implements Op {
     @Parameter(type = ItemIO.INPUT)
     private Dataset dataset = null;
 
-    /** If true then the dataset must have only spatial dimensions to be 3D */
     @Parameter(type = ItemIO.INPUT, required = false)
     private boolean strictlySpatial = false;
 
@@ -36,12 +35,22 @@ public class DatasetIs3D implements Op {
         return is3D;
     }
 
+    /**
+     * Sets the input Dataset used in run()
+     *
+     * @throws NullPointerException if argument is null
+     */
     public void setDataset(final Dataset dataset) throws NullPointerException {
         checkNotNull(dataset, "Dataset can't be set null");
 
         this.dataset = dataset;
     }
 
+    /**
+     * Sets the strictly spatial option
+     *
+     * @param strict If true then this.dataset must have only spatial dimensions to be 3D
+     */
     public void setStrictlySpatial(final boolean strict) {
         strictlySpatial = strict;
     }
