@@ -14,7 +14,7 @@
         <version>RELEASE</version>
     </parent>
 
-    <groupId>org.bonej</groupId>
+    <groupId>org.bonej.ops</groupId>
     <artifactId>ops</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
@@ -35,6 +35,18 @@
         <dependency>
             <groupId>net.imagej</groupId>
             <artifactId>imagej</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>RELEASE</version>
         </dependency>
     </dependencies>
 </project>

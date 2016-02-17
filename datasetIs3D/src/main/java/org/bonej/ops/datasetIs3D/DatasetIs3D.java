@@ -1,5 +1,7 @@
 package org.bonej.ops.datasetIs3D;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import net.imagej.Dataset;
 import net.imagej.axis.CalibratedAxis;
 import net.imagej.ops.Op;
@@ -30,6 +32,20 @@ public class DatasetIs3D implements Op {
     @Parameter(type = ItemIO.OUTPUT)
     private boolean is3D = false;
 
+    public boolean is3D() {
+        return is3D;
+    }
+
+    public void setDataset(final Dataset dataset) throws NullPointerException {
+        checkNotNull(dataset, "Dataset can't be set null");
+
+        this.dataset = dataset;
+    }
+
+    public void setStrictlySpatial(final boolean strict) {
+        strictlySpatial = strict;
+    }
+
     @Override
     public OpEnvironment ops() {
         return null;
@@ -41,10 +57,13 @@ public class DatasetIs3D implements Op {
     }
 
     @Override
-    public void run() {
+    public void run() throws NullPointerException {
+        checkNotNull(dataset, "Dataset is null. Can't run without a Dataset");
+
+        is3D = false;
+
         final int numDimensions = dataset.numDimensions();
         if (numDimensions < SPATIAL_DIMENSIONS) {
-            is3D = false;
             return;
         }
 

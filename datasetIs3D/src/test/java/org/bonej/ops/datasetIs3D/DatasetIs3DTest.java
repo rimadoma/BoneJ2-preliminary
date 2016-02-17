@@ -24,6 +24,18 @@ public class DatasetIs3DTest {
         ij.context().dispose();
     }
 
+    @Test(expected = NullPointerException.class)
+    public void TestSetDatasetThrowsNullPointerExceptionIfArgumentIsNull() {
+        DatasetIs3D datasetIs3D = new DatasetIs3D();
+        datasetIs3D.setDataset(null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void TestRunThrowsNullPointerExceptionIfDatasetIsNotSet() {
+        DatasetIs3D datasetIs3D = new DatasetIs3D();
+        datasetIs3D.run();
+    }
+
 
     @Test
     public void TestImageWithLessThanThreeDimensionsFails() {
