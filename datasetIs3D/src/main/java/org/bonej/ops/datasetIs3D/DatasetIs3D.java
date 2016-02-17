@@ -21,10 +21,14 @@ public class DatasetIs3D implements Op {
     private static final int SPATIAL_DIMENSIONS = 3;
 
     @Parameter(type = ItemIO.INPUT)
-    private Dataset dataset;
+    private Dataset dataset = null;
+
+    /** If true then the dataset must have only spatial dimensions to be 3D */
+    @Parameter(type = ItemIO.INPUT, required = false)
+    private boolean strictlySpatial = false;
 
     @Parameter(type = ItemIO.OUTPUT)
-    private boolean is3D;
+    private boolean is3D = false;
 
     @Override
     public OpEnvironment ops() {
@@ -47,6 +51,6 @@ public class DatasetIs3D implements Op {
         final CalibratedAxis[] axes = new CalibratedAxis[numDimensions];
         dataset.axes(axes);
         long spatialAxisCount = Arrays.stream(axes).filter(axis -> axis.type().isSpatial()).count();
-        is3D = spatialAxisCount == SPATIAL_DIMENSIONS;
+        is3D = spatialAxisCount == SPATIAL_DIMENSIONS && (numDimensions == SPATIAL_DIMENSIONS || !strictlySpatial);
     }
 }
