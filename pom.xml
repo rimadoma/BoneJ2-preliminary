@@ -6,6 +6,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>datasetIs3D</module>
+        <module>connectivity</module>
     </modules>
 
     <parent>
