@@ -8,6 +8,7 @@
         <module>datasetIs3D</module>
         <module>connectivity</module>
         <module>iterableIntervalIsBinary</module>
+        <module>testImageCreators</module>
     </modules>
 
     <parent>

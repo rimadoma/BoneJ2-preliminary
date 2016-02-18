@@ -26,7 +26,7 @@ public class Connectivity implements Op {
     private Dataset dataset = null;
 
     @Parameter
-    private OpService opService;
+    private OpService opService = null;
 
     @Override
     public OpEnvironment ops() {
@@ -41,6 +41,8 @@ public class Connectivity implements Op {
     @Override
     public void run() throws IllegalArgumentException {
         checkDataset();
+
+
     }
 
     private void checkDataset() throws IllegalArgumentException {
