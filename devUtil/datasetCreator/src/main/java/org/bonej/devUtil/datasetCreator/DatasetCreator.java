@@ -2,20 +2,11 @@ package org.bonej.devUtil.datasetCreator;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.Iterator;
-import java.util.function.Function;
-import java.util.stream.LongStream;
-
-import javax.annotation.Nullable;
-
 import net.imagej.Dataset;
 import net.imagej.DatasetService;
 import net.imagej.axis.Axes;
 import net.imagej.axis.AxisType;
-import net.imglib2.Cursor;
-import net.imglib2.IterableInterval;
 import net.imglib2.type.logic.BitType;
-import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.integer.*;
 import net.imglib2.type.numeric.real.DoubleType;
 import net.imglib2.type.numeric.real.FloatType;
@@ -110,27 +101,6 @@ public final class DatasetCreator extends AbstractContextual {
             default:
                 throw new AssertionError("Unhandled DatasetType value");
         }
-    }
-
-    /**
-     * Fills the given interval with the sequence {f(seed), f(seed + 1), f(seed + 2)... f(n)},
-     * where n is the number of elements in the interval
-     *
-     * @implNote    Does not check for under- or overflow, e.g. f(x) > m,
-     *              where m == getMaxValue() for an element in the interval
-     * @param seed  The first argument to the function f, i.e. starting point of the sequence
-     * @param f     A function of long -> long
-     */
-    public static void fillIntervalWithFunction(@Nullable final IterableInterval interval, final long seed,
-                                                final Function<Long, Long> f) {
-        if (interval == null) {
-            return;
-        }
-
-        final Iterator<Long> longIterator = LongStream.iterate(seed, l -> l + 1).iterator();
-        final Cursor<RealType<?>> cursor = interval.cursor();
-
-        cursor.forEachRemaining(c -> c.setReal(f.apply(longIterator.next())));
     }
 
     public enum DatasetType {

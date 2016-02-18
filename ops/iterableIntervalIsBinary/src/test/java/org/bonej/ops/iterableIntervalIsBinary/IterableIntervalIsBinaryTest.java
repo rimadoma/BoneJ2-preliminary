@@ -11,6 +11,7 @@ import net.imglib2.img.planar.PlanarImgFactory;
 import net.imglib2.type.numeric.integer.ByteType;
 
 import org.bonej.devUtil.datasetCreator.DatasetCreator;
+import org.bonej.devUtil.intervalUtil.IntervalUtil;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -53,7 +54,7 @@ public class IterableIntervalIsBinaryTest {
     @Test
     public void testIntervalWithOneValuePasses() {
         dataset = datasetCreator.createDataset(DatasetType.BIT);
-        DatasetCreator.fillIntervalWithFunction(dataset, 0, x -> 1L);
+        IntervalUtil.fillIntervalWithFunction(dataset, 0, x -> 1L);
 
         final boolean result = (boolean) ij.op().run(IterableIntervalIsBinary.class, dataset);
 
@@ -63,7 +64,7 @@ public class IterableIntervalIsBinaryTest {
     @Test
     public void testIntervalWithTwoValuesPasses() {
         dataset = datasetCreator.createDataset(DatasetType.BIT);
-        DatasetCreator.fillIntervalWithFunction(dataset, 0, x -> x % 2);
+        IntervalUtil.fillIntervalWithFunction(dataset, 0, x -> x % 2);
 
         final boolean result = (boolean) ij.op().run(IterableIntervalIsBinary.class, dataset);
 
@@ -73,7 +74,7 @@ public class IterableIntervalIsBinaryTest {
     @Test
     public void testIntervalWithMoreThanTwoValuesFails() {
         PlanarImg planarImg = new PlanarImgFactory().create(new long[]{3}, new ByteType());
-        DatasetCreator.fillIntervalWithFunction(planarImg, 0, x -> x);
+        IntervalUtil.fillIntervalWithFunction(planarImg, 0, x -> x);
         final boolean result = (boolean) ij.op().run(IterableIntervalIsBinary.class, planarImg);
         assertFalse("An interval with more than two distinct values is not binary", result);
     }

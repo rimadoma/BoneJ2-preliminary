@@ -3,16 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>bonej</artifactId>
+        <artifactId>devUtil</artifactId>
         <groupId>org.bonej</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>devUtil</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>datasetCreator</module>
-        <module>intervalUtil</module>
-    </modules>
+    <groupId>org.bonej.devUtil</groupId>
+    <artifactId>intervalUtil</artifactId>
+
+
 </project>
