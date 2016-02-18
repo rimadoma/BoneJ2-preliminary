@@ -1,13 +1,15 @@
 package org.bonej.devUtil.intervalUtil;
 
-import net.imglib2.IterableRealInterval;
-import net.imglib2.RealCursor;
-import net.imglib2.type.numeric.RealType;
+import static com.google.common.base.Preconditions.checkNotNull;
 
-import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.function.Function;
 import java.util.stream.LongStream;
+
+import javax.annotation.Nullable;
+
+import net.imglib2.IterableRealInterval;
+import net.imglib2.type.numeric.RealType;
 
 /**
  * Utility methods for IterableInterval
@@ -32,9 +34,10 @@ public final class IntervalUtil {
             return;
         }
 
-        final Iterator<Long> longIterator = LongStream.iterate(seed, l -> l + 1).iterator();
-        final RealCursor<RealType<?>> cursor = interval.cursor();
+        checkNotNull(f, "Cannot fill interval: function f is null");
 
-        cursor.forEachRemaining(c -> c.setReal(f.apply(longIterator.next())));
+        final Iterator<Long> longIterator = LongStream.iterate(seed, l -> l + 1).iterator();
+
+        interval.cursor().forEachRemaining(c -> c.setReal(f.apply(longIterator.next())));
     }
 }
