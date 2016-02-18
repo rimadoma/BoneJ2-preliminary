@@ -1,19 +1,19 @@
 package org.bonej.devUtil.intervalUtil;
 
 import static org.bonej.devUtil.datasetCreator.DatasetCreator.DatasetType;
+import static org.junit.Assert.assertArrayEquals;
+
+import java.util.function.Function;
 
 import net.imagej.Dataset;
 import net.imagej.ImageJ;
 import net.imagej.axis.Axes;
 import net.imagej.axis.AxisType;
+
 import org.bonej.devUtil.datasetCreator.DatasetCreator;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.util.function.Function;
-
-import static org.junit.Assert.*;
 
 /**
  * Unit tests for the IntervalUtil class

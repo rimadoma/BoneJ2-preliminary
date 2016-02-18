@@ -4,7 +4,6 @@ import net.imagej.Dataset;
 import net.imagej.ImageJ;
 import net.imagej.axis.Axes;
 import net.imagej.axis.AxisType;
-import net.imglib2.type.numeric.integer.UnsignedByteType;
 import org.bonej.devUtil.datasetCreator.DatasetCreator;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

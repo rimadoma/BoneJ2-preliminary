@@ -10,9 +10,4 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>devUtil</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>datasetCreator</module>
-        <module>intervalUtil</module>
-    </modules>
 </project>
