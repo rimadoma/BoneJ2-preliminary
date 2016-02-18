@@ -3,7 +3,8 @@ package org.bonej.devUtil.datasetCreator;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Iterator;
-import java.util.Random;
+import java.util.function.Function;
+import java.util.stream.LongStream;
 
 import javax.annotation.Nullable;
 
@@ -12,6 +13,7 @@ import net.imagej.DatasetService;
 import net.imagej.axis.Axes;
 import net.imagej.axis.AxisType;
 import net.imglib2.Cursor;
+import net.imglib2.IterableInterval;
 import net.imglib2.type.logic.BitType;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.integer.*;
@@ -111,48 +113,24 @@ public final class DatasetCreator extends AbstractContextual {
     }
 
     /**
-     * Fills the elements in the given Dataset with random whole numbers.
+     * Fills the given interval with the sequence {f(seed), f(seed + 1), f(seed + 2)... f(n)},
+     * where n is the number of elements in the interval
      *
-     * @implNote        Min and max values are clamped to prevent under - and overflow.
-     *                  E.g. If maxValue == 1000 and dataset type == UnsignedByteType, then maxValue = 255
-     * @param minValue  Minimum value of the random numbers (inclusive)
-     * @param maxValue  Maximum value of the random numbers (inclusive)
+     * @implNote    Does not check for under- or overflow, e.g. f(x) > m,
+     *              where m == getMaxValue() for an element in the interval
+     * @param seed  The first argument to the function f, i.e. starting point of the sequence
+     * @param f     A function of long -> long
      */
-    public static void fillWithRandomWholeNumbers(@Nullable final Dataset dataset, long minValue,
-                                                  long maxValue) {
-        if (dataset == null) {
+    public static void fillIntervalWithFunction(@Nullable final IterableInterval interval, final long seed,
+                                                final Function<Long, Long> f) {
+        if (interval == null) {
             return;
         }
 
-        final Cursor<RealType<?>> cursor = dataset.cursor();
-        if (!cursor.hasNext()) {
-            return;
-        }
+        final Iterator<Long> longIterator = LongStream.iterate(seed, l -> l + 1).iterator();
+        final Cursor<RealType<?>> cursor = interval.cursor();
 
-        cursor.fwd();
-        final RealType<?> element = cursor.next();
-        final long typeMin = (long) element.getMinValue();
-        final long typeMax = (long) element.getMaxValue();
-        minValue = clamp(minValue, typeMin, typeMax);
-        maxValue = clamp(maxValue, typeMin, typeMax);
-        cursor.reset();
-
-        long exclusiveMax = maxValue + 1;
-
-        final Iterator<Long> randomIterator =
-                new Random(System.currentTimeMillis()).longs(minValue, exclusiveMax).iterator();
-
-        cursor.forEachRemaining(c -> c.setReal(randomIterator.next()));
-    }
-
-    private static long clamp(final long value, final long min, final long max) {
-        if (value < min) {
-            return min;
-        }
-        if (value > max) {
-            return max;
-        }
-        return value;
+        cursor.forEachRemaining(c -> c.setReal(f.apply(longIterator.next())));
     }
 
     public enum DatasetType {

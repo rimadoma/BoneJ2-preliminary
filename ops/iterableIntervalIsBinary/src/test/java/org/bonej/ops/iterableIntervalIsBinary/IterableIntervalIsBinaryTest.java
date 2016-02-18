@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 
 import net.imagej.Dataset;
 import net.imagej.ImageJ;
-import net.imglib2.img.basictypeaccess.array.ByteArray;
 import net.imglib2.img.planar.PlanarImg;
 import net.imglib2.img.planar.PlanarImgFactory;
 import net.imglib2.type.numeric.integer.ByteType;
@@ -53,10 +52,8 @@ public class IterableIntervalIsBinaryTest {
 
     @Test
     public void testIntervalWithOneValuePasses() {
-        final int minValue = 1;
-        final int maxValue = 1;
         dataset = datasetCreator.createDataset(DatasetType.BIT);
-        DatasetCreator.fillWithRandomWholeNumbers(dataset, minValue, maxValue);
+        DatasetCreator.fillIntervalWithFunction(dataset, 0, x -> 1L);
 
         final boolean result = (boolean) ij.op().run(IterableIntervalIsBinary.class, dataset);
 
@@ -65,10 +62,8 @@ public class IterableIntervalIsBinaryTest {
 
     @Test
     public void testIntervalWithTwoValuesPasses() {
-        final int minValue = 0;
-        final int maxValue = 1;
-        dataset = datasetCreator.createDataset(DatasetCreator.DatasetType.BIT);
-        DatasetCreator.fillWithRandomWholeNumbers(dataset, minValue, maxValue);
+        dataset = datasetCreator.createDataset(DatasetType.BIT);
+        DatasetCreator.fillIntervalWithFunction(dataset, 0, x -> x % 2);
 
         final boolean result = (boolean) ij.op().run(IterableIntervalIsBinary.class, dataset);
 
@@ -78,7 +73,7 @@ public class IterableIntervalIsBinaryTest {
     @Test
     public void testIntervalWithMoreThanTwoValuesFails() {
         PlanarImg planarImg = new PlanarImgFactory().create(new long[]{3}, new ByteType());
-        planarImg.setPlane(0, new ByteArray(new byte[]{0, 1, 2}));
+        DatasetCreator.fillIntervalWithFunction(planarImg, 0, x -> x);
         final boolean result = (boolean) ij.op().run(IterableIntervalIsBinary.class, planarImg);
         assertFalse("An interval with more than two distinct values is not binary", result);
     }
